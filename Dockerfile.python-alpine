@@ -13,4 +13,3 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositorie
 RUN apk upgrade && apk add ca-certificates  --no-cache && \
     echo -e "[global]\nindex-url=https://${PIP_MIRROR}/pypi/simple\n[install]\ntrusted-host=${PIP_MIRROR}" >  /etc/pip.conf 
 
-RUN pip3 install ansible --no-cache-dir

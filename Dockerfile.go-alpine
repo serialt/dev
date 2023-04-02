@@ -1,0 +1,27 @@
+FROM golang:alpine AS builder
+
+ENV LANG=C.UTF-8
+ENV TZ=Asia/Shanghai
+
+ENV CGO_ENABLED=0
+ENV GOPROXY=https://goproxy.cn,direct
+
+WORKDIR /build/
+
+COPY go.mod go.sum ./
+RUN go mod download && go build -ldflags="-s -w" -o /app/hello service/hello/hello.go
+
+FROM alpine
+
+#set timezone 
+ENV LANG=C.UTF-8
+ENV TZ=Asia/Shanghai
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+RUN apk update --no-cache && apk add --no-cache ca-certificates tzdata
+
+WORKDIR /app
+COPY --from=builder /app/hello /app/hello
+COPY --from=builder /app/etc /app/etc
+
+ENTRYPOINT ["./hello", "-f", "etc/hello-api.yaml"]

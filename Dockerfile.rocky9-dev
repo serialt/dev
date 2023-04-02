@@ -1,0 +1,44 @@
+FROM rockylinux:9
+
+LABEL mantainer="serialt <tserialt@gmail.com> rocky image"
+
+# change yum repo to ustc
+RUN   sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+    -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.ustc.edu.cn/rocky|g' \
+    -i.bak \
+    /etc/yum.repos.d/rocky*.repo && \
+    yum -y install epel-release && \
+    sed -e 's|^metalink=|#metalink=|g' \
+    -e 's|^#baseurl=https\?://download.fedoraproject.org/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
+    -e 's|^#baseurl=https\?://download.example/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
+    -i.bak \
+    /etc/yum.repos.d/epel*.repo
+
+# install base software
+RUN  yum -y install git pwgen vim-enhanced bash-completion python3 python3-devel golang  openssh-clients openssh-server net-tools passwd wget lftp  && \
+    yum -y upgrade  && \
+    echo -e '[global]\nindex-url = https://repo.huaweicloud.com/repository/pypi/simple\ntrusted-host = repo.huaweicloud.com\ntimeout = 120' > /etc/pip.conf  && \
+    yum clean all
+
+# set sshd
+RUN ssh-keygen -q -t ecdsa -f  /etc/ssh/ssh_host_ecdsa_key  && \
+    ssh-keygen -q -t ed25519 -f  /etc/ssh/ssh_host_ed25519_key  && \
+    ssh-keygen -q -t rsa -f  /etc/ssh/ssh_host_rsa_key && \
+    echo sugar | passwd --stdin root && \
+    sed -ri '/^#PermitRootLogin/cPermitRootLogin yes'  /etc/ssh/sshd_config
+
+# set env
+RUN echo -en "alias ls='ls --color'\nalias ll='ls -l'\nalias lh='ls -lh' " >> ~/.bashrc 
+
+ENV LANG zh_CN.UTF-8
+ENV TZ "Asia/Shanghai"
+
+
+
+WORKDIR /root
+
+EXPOSE 22 80 443
+
+CMD /usr/sbin/sshd -D 
+
+

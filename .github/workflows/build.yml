@@ -1,0 +1,286 @@
+name: sync
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+  schedule:
+    - cron: "40 5 1 * 1" #  每月1号自动构建一次
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+
+jobs:
+  build-alma:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and Push alma8
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.alma8
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/alma:8
+      - name: Build and Push alma9
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.alma9
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/alma:9
+      - name: Build and Push alma latest
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.alma.latest
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/alma:latest
+
+  build-rocky:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and Push rocky8
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.rocky8
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/rocky:8
+
+      - name: Build and Push rocky9
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.rocky9
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/rocky:9
+      - name: Build and Push rocky9-dev
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.rocky9-dev
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/rocky:9-dev
+            ${{ secrets.DOCKER_USERNAME }}/rocky:dev
+
+  build-centos-stream:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and Push centos stream 8
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.centos-stream8
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/centos-stream:8
+      - name: Build and Push centos stream 9
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.centos-stream9
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/centos-stream:9
+
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and Push ubuntu1804
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.ubuntu1804 
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/ubuntu:18.04 
+            ${{ secrets.DOCKER_USERNAME }}/ubuntu:1804 
+      - name: Build and Push ubuntu2204
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.ubuntu2004 
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/ubuntu:20.04 
+            ${{ secrets.DOCKER_USERNAME }}/ubuntu:2004 
+      - name: Build and Push ubuntu2204
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.ubuntu2204 
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/ubuntu:22.04 
+            ${{ secrets.DOCKER_USERNAME }}/ubuntu:2204 
+
+  build-debian:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and Push debian10
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.debian10
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/debian:10
+            ${{ secrets.DOCKER_USERNAME }}/debian:buster
+      - name: Build and Push debian11
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.debian11
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/debian:11
+            ${{ secrets.DOCKER_USERNAME }}/debian:bullseye
+      - name: Build and Push debian12
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.debian12
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/debian:12
+            ${{ secrets.DOCKER_USERNAME }}/debian:bookworm
+
+  build-alpine:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and Push alpine3
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.alpine3
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/alpine:3
+      - name: Build and Push alpine3.14
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.alpine3.14
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/alpine:3.14
+      - name: Build and Push alpine3.15
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.alpine3.15
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/alpine:3.15
+      - name: Build and Push alpine3.16
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.alpine3.16
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/alpine:3.16
+      - name: Build and Push alpine3.17
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.alpine3.17
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/alpine:3.17

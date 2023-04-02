@@ -1,0 +1,32 @@
+FROM almalinux:8
+
+LABEL mantainer="serialt <tserialt@gmail.com> alma image"
+
+# change yum repo to ustc
+RUN  sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+    -e 's|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.aliyun.com|g' \
+    -i.bak \
+    /etc/yum.repos.d/*.repo && \
+    yum -y install epel-release && \
+    sed -e 's|^metalink=|#metalink=|g' \
+    -e 's|^#baseurl=https\?://download.fedoraproject.org/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
+    -e 's|^#baseurl=https\?://download.example/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
+    -i.bak \
+    /etc/yum.repos.d/epel*.repo
+
+# install base software
+RUN yum -y upgrade  && \
+    yum clean all && \
+    echo -en "alias ls='ls --color'\nalias ll='ls -l'\nalias lh='ls -lh' " >> ~/.bashrc 
+
+
+ENV LANG=C.UTF-8
+ENV TZ "Asia/Shanghai"
+
+
+
+
+
+
+
+

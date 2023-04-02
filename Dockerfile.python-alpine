@@ -1,0 +1,16 @@
+FROM python:3.9-alpine
+
+LABEL mantainer="serialt <tserialt@gmail.com> build image"
+
+#set timezone 
+ENV LANG=C.UTF-8
+ENV TZ=Asia/Shanghai
+ENV PIP_MIRROR=mirrors.aliyun.com
+
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+RUN apk upgrade && apk add ca-certificates  --no-cache && \
+    echo -e "[global]\nindex-url=https://${PIP_MIRROR}/pypi/simple\n[install]\ntrusted-host=${PIP_MIRROR}" >  /etc/pip.conf 
+
+RUN pip3 install ansible --no-cache-dir

@@ -214,6 +214,32 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/debian:11
             ${{ secrets.DOCKER_USERNAME }}/debian:bullseye
+
+      - name: Build and Push debian11-python3
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.debian11.python
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/debian:python
+            ${{ secrets.DOCKER_USERNAME }}/debian:11-python3
+            ${{ secrets.DOCKER_USERNAME }}/debian:11-python
+            ${{ secrets.DOCKER_USERNAME }}/debian:bullseye-python3
+            ${{ secrets.DOCKER_USERNAME }}/debian:bullseye-python
+
+      - name: Build and Push debian11 java
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.debian11
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/debian:11-java
+            ${{ secrets.DOCKER_USERNAME }}/debian:bullseye-java
+            ${{ secrets.DOCKER_USERNAME }}/debian:java
       # - name: Build and Push debian12
       #   uses: docker/build-push-action@v4
       #   with:

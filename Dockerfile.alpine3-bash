@@ -1,0 +1,17 @@
+FROM alpine:3
+
+LABEL mantainer="serialt <tserialt@gmail.com>"
+
+#set timezone 
+ENV LANG=C.UTF-8
+ENV TZ=Asia/Shanghai
+ENV HISTTIMEFORMAT="[%F %T] "
+ENV PS1="[\u@\h \W]\\$ "
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+RUN apk update --no-cache && apk add --no-cache ca-certificates curl vim bash bash-completion  && \
+    echo -e 'export PS1="[\u@\h \W]\\$ "\nexport HISTTIMEFORMAT="[%F %T] [`whoami`] "' >> /etc/profile && \
+    sed -ri 's/ash/bash/g' /etc/passwd && \
+    rm -rf /var/cache/apk/* 
+
+CMD "/bin/bash"

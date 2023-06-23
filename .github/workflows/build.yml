@@ -240,16 +240,16 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/debian:11-java
             ${{ secrets.DOCKER_USERNAME }}/debian:bullseye-java
             ${{ secrets.DOCKER_USERNAME }}/debian:java
-      # - name: Build and Push debian12
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     context: .
-      #     file: ./Dockerfile.debian12
-      #     push: true
-      #     platforms: linux/amd64,linux/arm64
-      #     tags: |
-      #       ${{ secrets.DOCKER_USERNAME }}/debian:12
-      #       ${{ secrets.DOCKER_USERNAME }}/debian:bookworm
+      - name: Build and Push debian12
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.debian12
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/debian:12
+            ${{ secrets.DOCKER_USERNAME }}/debian:bookworm
 
   build-alpine:
     runs-on: ubuntu-latest

@@ -1,8 +1,11 @@
 FROM golang:alpine as grpcurl
+ENV GOPROXY='https://goproxy.cn,direct'
 RUN apk update \
   && apk add --virtual build-dependencies git \
   && apk add bash curl jq \
-  && go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
+  && go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest \
+  && go install github.com/davecheney/httpstat@latest
+
 
 FROM alpine:3
 
@@ -20,7 +23,7 @@ RUN apk update --no-cache && \
     sed -ri 's/ash/bash/g' /etc/passwd && \
     rm -rf /var/cache/apk/* 
 
-RUN wget -O /usr/bin/httpstat https://github.com/davecheney/httpstat/releases/download/v1.0.0/httpstat-linux-amd64-v1.0.0 && \
-    chmod +x /usr/bin/httpstat
+
 COPY --from=grpcurl  /go/bin/grpcurl /usr/bin/grpcurl
+COPY --from=grpcurl  /go/bin/httpstat /usr/bin/httpstat
 ENTRYPOINT [ "sleep","365d" ]

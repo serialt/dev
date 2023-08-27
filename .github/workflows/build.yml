@@ -250,6 +250,16 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/debian:12
             ${{ secrets.DOCKER_USERNAME }}/debian:bookworm
+      - name: Build and Push debian13
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.debian13
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/debian:13
+            ${{ secrets.DOCKER_USERNAME }}/debian:trixie
 
   build-alpine:
     runs-on: ubuntu-latest

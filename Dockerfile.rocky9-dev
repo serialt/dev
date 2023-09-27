@@ -2,17 +2,6 @@ FROM rockylinux:9
 
 LABEL mantainer="serialt <tserialt@gmail.com> rocky image"
 
-# change yum repo to ustc
-RUN   sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-    -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.ustc.edu.cn/rocky|g' \
-    -i.bak \
-    /etc/yum.repos.d/rocky*.repo && \
-    yum -y install epel-release && \
-    sed -e 's|^metalink=|#metalink=|g' \
-    -e 's|^#baseurl=https\?://download.fedoraproject.org/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
-    -e 's|^#baseurl=https\?://download.example/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
-    -i.bak \
-    /etc/yum.repos.d/epel*.repo
 
 # install base software
 RUN  yum -y install git pwgen vim-enhanced bash-completion python3 python3-devel golang  openssh-clients openssh-server net-tools passwd wget lftp  && \
@@ -33,6 +22,17 @@ RUN echo -en "alias ls='ls --color'\nalias ll='ls -l'\nalias lh='ls -lh' " >> ~/
 ENV LANG zh_CN.UTF-8
 ENV TZ "Asia/Shanghai"
 
+# change yum repo to ustc
+RUN   sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+    -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.ustc.edu.cn/rocky|g' \
+    -i.bak \
+    /etc/yum.repos.d/rocky*.repo && \
+    yum -y install epel-release && \
+    sed -e 's|^metalink=|#metalink=|g' \
+    -e 's|^#baseurl=https\?://download.fedoraproject.org/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
+    -e 's|^#baseurl=https\?://download.example/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
+    -i.bak \
+    /etc/yum.repos.d/epel*.repo
 
 
 WORKDIR /root

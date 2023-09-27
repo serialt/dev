@@ -11,12 +11,13 @@ ENV CGO_ENABLED=0
 ENV GOPROXY=https://goproxy.cn,direct
 ENV PIP_MIRROR=mirrors.aliyun.com
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN apk update --no-cache && apk add --no-cache ca-certificates curl vim bash bash-completion  && \
     echo -e 'export PS1="[\u@\h \W]\\$ "\nexport HISTTIMEFORMAT="[%F %T] [`whoami`] "' >> /etc/profile && \
     sed -ri 's/ash/bash/g' /etc/passwd && \
     echo -e "[global]\nindex-url=https://${PIP_MIRROR}/pypi/simple\n[install]\ntrusted-host=${PIP_MIRROR}" >  /etc/pip.conf && \
     rm -rf /var/cache/apk/* 
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 
 WORKDIR /root
 

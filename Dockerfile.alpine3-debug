@@ -17,12 +17,13 @@ ENV TZ=Asia/Shanghai
 ENV HISTTIMEFORMAT="[%F %T] "
 ENV PS1="[\u@\h \W]\\$ "
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
 RUN apk update --no-cache && \
     apk add --no-cache ca-certificates curl vim bash bash-completion tcpdump strace mysql-client postgresql-client iproute2 redis jq iftop tzdata tar nmap bind-tools htop && \
     sed -ri 's/ash/bash/g' /etc/passwd && \
     rm -rf /var/cache/apk/* 
 
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 
 COPY --from=grpcurl  /go/bin/grpcurl /usr/bin/grpcurl
 COPY --from=grpcurl  /go/bin/httpstat /usr/bin/httpstat

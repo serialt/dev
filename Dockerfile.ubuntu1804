@@ -8,17 +8,17 @@ ENV  TZ=Asia/Shanghai
 ENV  DEBIAN_FRONTEND=noninteractive
 
 
-# change apt source 
-RUN sed -e "s@http://.*archive.ubuntu.com@http://mirrors.aliyun.com@g" \
-    -e "s@http://.*security.ubuntu.com@http://mirrors.aliyun.com@g"  \
-    -i.bak \
-    -i /etc/apt/sources.list
-
 # update package
 RUN  apt-get update &&  apt-get upgrade -y && apt-get install -y apt-transport-https ca-certificates gnupg-agent tzdata  curl vim && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata && \
     rm -rf /var/lib/apt/lists/*
+
+# change apt source 
+RUN sed -e "s@http://.*archive.ubuntu.com@http://mirrors.aliyun.com@g" \
+    -e "s@http://.*security.ubuntu.com@http://mirrors.aliyun.com@g"  \
+    -i.bak \
+    -i /etc/apt/sources.list
 
 
 # # change apt source to https

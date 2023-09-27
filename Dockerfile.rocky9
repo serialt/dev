@@ -2,6 +2,12 @@ FROM rockylinux:9
 
 LABEL mantainer="serialt <tserialt@gmail.com> rocky image"
 
+
+# yum upgrade
+RUN yum -y upgrade  && \
+    yum clean all && \
+    echo -en "alias ls='ls --color'\nalias ll='ls -l'\nalias lh='ls -lh' " >> ~/.bashrc 
+
 # change yum repo to ustc
 RUN   sed -e 's|^mirrorlist=|#mirrorlist=|g' \
     -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.ustc.edu.cn/rocky|g' \
@@ -13,12 +19,6 @@ RUN   sed -e 's|^mirrorlist=|#mirrorlist=|g' \
     -e 's|^#baseurl=https\?://download.example/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
     -i.bak \
     /etc/yum.repos.d/epel*.repo
-
-# yum upgrade
-RUN yum -y upgrade  && \
-    yum clean all && \
-    echo -en "alias ls='ls --color'\nalias ll='ls -l'\nalias lh='ls -lh' " >> ~/.bashrc 
-
 
 ENV LANG=C.UTF-8
 ENV TZ "Asia/Shanghai"

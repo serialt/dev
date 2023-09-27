@@ -4,7 +4,7 @@ FROM golang:${VERSION}
 WORKDIR /usr/src/app
 
 # setup okteto message
-COPY bashrc /root/.bashrc
+COPY okteto/bashrc /root/.bashrc
 
 RUN go install github.com/codegangsta/gin@latest && \
     go install github.com/go-delve/delve/cmd/dlv@latest && \

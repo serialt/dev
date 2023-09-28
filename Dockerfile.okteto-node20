@@ -1,0 +1,16 @@
+ARG VERSION=20
+FROM node:$VERSION
+
+WORKDIR /usr/src/app
+
+# setup okteto message
+COPY okteto/bashrc /root/.bashrc
+
+RUN npm install -g nodemon
+
+# change apt source 
+RUN sed -i 's/\w*.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources 
+
+
+CMD ["bash"]
+

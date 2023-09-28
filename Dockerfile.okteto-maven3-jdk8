@@ -1,0 +1,18 @@
+ARG VERSION=3
+ARG JDK_RELEASE=eclipse-temurin-8
+FROM maven:${VERSION}-${JDK_RELEASE}
+
+
+WORKDIR /usr/src/app
+
+# setup okteto message
+COPY okteto/bashrc /root/.bashrc
+
+# change apt source 
+RUN sed -e "s@http://.*archive.ubuntu.com@http://mirrors.ustc.edu.cn@g" \
+    -e "s@http://.*security.ubuntu.com@http://mirrors.ustc.edu.cn@g"  \
+    -i.bak \
+    -i /etc/apt/sources.list 
+
+CMD ["bash"]
+

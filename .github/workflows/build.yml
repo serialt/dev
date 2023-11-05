@@ -48,15 +48,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/alma:9
-      - name: Build and Push alma latest
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.alma.latest
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/alma:latest
 
   build-rocky:
     runs-on: ubuntu-latest
@@ -81,7 +72,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/rocky:8
-
       - name: Build and Push rocky9
         uses: docker/build-push-action@v4
         with:
@@ -102,39 +92,6 @@ jobs:
       #       ${{ secrets.DOCKER_USERNAME }}/rocky:9-dev
       #       ${{ secrets.DOCKER_USERNAME }}/rocky:dev
 
-  build-centos-stream:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and Push centos stream 8
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.centos-stream8
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/centos-stream:8
-      - name: Build and Push centos stream 9
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.centos-stream9
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/centos-stream:9
-
   build-ubuntu:
     runs-on: ubuntu-latest
     steps:
@@ -149,17 +106,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and Push ubuntu1804
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.ubuntu1804 
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/ubuntu:18.04 
-            ${{ secrets.DOCKER_USERNAME }}/ubuntu:1804 
-      - name: Build and Push ubuntu2204
+      - name: Build and Push ubuntu2004
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -194,16 +141,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and Push debian10
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.debian10
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/debian:10
-            ${{ secrets.DOCKER_USERNAME }}/debian:buster
       - name: Build and Push debian11
         uses: docker/build-push-action@v4
         with:
@@ -214,32 +151,6 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/debian:11
             ${{ secrets.DOCKER_USERNAME }}/debian:bullseye
-
-      - name: Build and Push debian11-python3
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.debian11.python
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/debian:python
-            ${{ secrets.DOCKER_USERNAME }}/debian:11-python3
-            ${{ secrets.DOCKER_USERNAME }}/debian:11-python
-            ${{ secrets.DOCKER_USERNAME }}/debian:bullseye-python3
-            ${{ secrets.DOCKER_USERNAME }}/debian:bullseye-python
-
-      - name: Build and Push debian11 java
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.debian11
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/debian:11-java
-            ${{ secrets.DOCKER_USERNAME }}/debian:bullseye-java
-            ${{ secrets.DOCKER_USERNAME }}/debian:java
       - name: Build and Push debian12
         uses: docker/build-push-action@v4
         with:
@@ -275,24 +186,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and Push alpine3.16
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.alpine3.16
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/alpine:3.16
-      - name: Build and Push alpine3.17
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.alpine3.17
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/alpine:3.17
       - name: Build and Push alpine3.18
         uses: docker/build-push-action@v4
         with:
@@ -354,7 +247,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and Push ubuntu1804
+      - name: Build and Push python
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -381,37 +274,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and Push okteto-go:1.18
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.okteto-go1.18
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/okteto-go:1.18
-
-      - name: Build and Push okteto-go:1.19
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.okteto-go1.19
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/okteto-go:1.19
-
-      - name: Build and Push okteto-go:1.20
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.okteto-go1.20
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/okteto-go:1.20
-
       - name: Build and Push okteto-go:1.21
         uses: docker/build-push-action@v4
         with:
@@ -439,25 +301,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and Push okteto-python:3.6
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.okteto-python3.6
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/okteto-python:3.6
-      - name: Build and Push okteto-python:3.8
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.okteto-python3.8
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/okteto-python:3.8
-
       - name: Build and Push okteto-python:3.9
         uses: docker/build-push-action@v4
         with:
@@ -467,27 +310,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/okteto-python:3.9
-      - name: Build and Push okteto-python:3.10
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.okteto-python3.10
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/okteto-python:3.10
-      - name: Build and Push okteto-python:3.11
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.okteto-python3.11
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/okteto-python:3.11
-            ${{ secrets.DOCKER_USERNAME }}/okteto-python:3
-            ${{ secrets.DOCKER_USERNAME }}/okteto-python:latest
-
 
   build-okteto-maven:
     runs-on: ubuntu-latest
@@ -503,15 +325,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and Push maven3-jdk8
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.okteto-maven3-jdk8
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/okteto-maven:3-jdk8
       - name: Build and Push okteto-maven3-jdk11
         uses: docker/build-push-action@v4
         with:
@@ -521,7 +334,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/okteto-maven:3-jdk11
-
       - name: Build and Push okteto-maven3-jdk17
         uses: docker/build-push-action@v4
         with:
@@ -546,35 +358,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and Push node14
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.okteto-node14
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/okteto-node:14
-      - name: Build and Push node16
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.okteto-node16
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/okteto-node:16
-
-      - name: Build and Push okteto-node18
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.okteto-node18
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/okteto-node:18
-            
       - name: Build and Push okteto-node20
         uses: docker/build-push-action@v4
         with:

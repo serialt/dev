@@ -1,0 +1,34 @@
+FROM jenkins/jenkins:2.426.2-almalinux
+
+USER root
+
+# change yum repo to ustc
+RUN  sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+    -e 's|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.aliyun.com|g' \
+    -i.bak \
+    /etc/yum.repos.d/*.repo && \
+    yum -y install epel-release && \
+    sed -e 's|^metalink=|#metalink=|g' \
+    -e 's|^#baseurl=https\?://download.fedoraproject.org/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
+    -e 's|^#baseurl=https\?://download.example/pub/epel/|baseurl=https://mirrors.ustc.edu.cn/epel/|g' \
+    -i.bak \
+    /etc/yum.repos.d/epel*.repo
+
+
+# install base software
+RUN yum -y upgrade  && \
+    yum clean all && \
+    echo -en "alias ls='ls --color'\nalias ll='ls -l'\nalias lh='ls -lh' " >> ~/.bashrc 
+
+RUN yum -y install ansible curl git wget jq sudo && \
+    cd /tmp/ && wget https://mirrors.huaweicloud.com/helm/v3.12.3/helm-v3.12.3-linux-amd64.tar.gz && \
+    tar -xf helm*.tar.gz && mv linux-amd64/helm /usr/bin/ && rm -rf helm*.tar.gz  && \
+    curl -sL https://dl.k8s.io/release/v1.29.0/kubectl-linux-amd64  -o  /usr/bin/kubectl && \
+    chmod a+x /usr/bin/kubectl && \
+    echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers 
+
+
+ENV LANG=C.UTF-8
+ENV TZ "Asia/Shanghai"
+
+USER jenkins

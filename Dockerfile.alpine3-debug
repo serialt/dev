@@ -7,8 +7,7 @@ RUN apk update \
   && go install github.com/davecheney/httpstat@latest
 
 
-ARG OCI_VERSION=3
-FROM alpine:${OCI_VERSION}
+FROM alpine:3
 
 LABEL mantainer="serialt <tserialt@gmail.com>"
 

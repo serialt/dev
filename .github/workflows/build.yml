@@ -155,9 +155,11 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile.debian12
+          file: ./Dockerfile.debian
           push: true
           platforms: linux/amd64,linux/arm64
+          build-args:
+            OCI_VERSION: 12
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/debian:12
             ${{ secrets.DOCKER_USERNAME }}/debian:bookworm
@@ -165,9 +167,11 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile.debian13
+          file: ./Dockerfile.debian
           push: true
           platforms: linux/amd64,linux/arm64
+          build-args:
+            OCI_VERSION: trixie
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/debian:13
             ${{ secrets.DOCKER_USERNAME }}/debian:trixie

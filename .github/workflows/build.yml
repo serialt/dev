@@ -159,7 +159,7 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           build-args:
-            OCI_VERSION: 12
+            - OCI_VERSION=12
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/debian:12
             ${{ secrets.DOCKER_USERNAME }}/debian:bookworm

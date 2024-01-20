@@ -158,7 +158,7 @@ jobs:
           file: ./Dockerfile.debian
           push: true
           platforms: linux/amd64,linux/arm64
-          build-args: [OCI_VERSION=12]
+          build-args: OCI_VERSION=12
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/debian:12
             ${{ secrets.DOCKER_USERNAME }}/debian:bookworm
@@ -169,8 +169,7 @@ jobs:
           file: ./Dockerfile.debian
           push: true
           platforms: linux/amd64,linux/arm64
-          build-args:
-            OCI_VERSION: trixie
+          build-args: OCI_VERSION=trixie
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/debian:13
             ${{ secrets.DOCKER_USERNAME }}/debian:trixie

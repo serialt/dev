@@ -1,4 +1,5 @@
-FROM alpine:3
+ARG OCI_VERSION=3
+FROM alpine:${OCI_VERSION}
 
 LABEL mantainer="serialt <tserialt@gmail.com> build a vm image"
 

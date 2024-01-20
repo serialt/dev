@@ -106,26 +106,41 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and Push ubuntu1804
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.ubuntu
+          push: true
+          platforms: linux/amd64,linux/arm64
+          build-args: OCI_VERSION=18.04
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/ubuntu:18.04 
+            ${{ secrets.DOCKER_USERNAME }}/ubuntu:1804 
       - name: Build and Push ubuntu2004
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile.ubuntu2004 
+          file: ./Dockerfile.ubuntu
           push: true
           platforms: linux/amd64,linux/arm64
+          build-args: OCI_VERSION=20.04
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/ubuntu:20.04 
             ${{ secrets.DOCKER_USERNAME }}/ubuntu:2004 
+            ${{ secrets.DOCKER_USERNAME }}/ubuntu:facal
       - name: Build and Push ubuntu2204
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile.ubuntu2204 
+          file: ./Dockerfile.ubuntu
           push: true
           platforms: linux/amd64,linux/arm64
+          build-args: OCI_VERSION=22.04
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/ubuntu:22.04 
             ${{ secrets.DOCKER_USERNAME }}/ubuntu:2204 
+            ${{ secrets.DOCKER_USERNAME }}/ubuntu:jammy
 
   build-debian:
     runs-on: ubuntu-latest
@@ -188,15 +203,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and Push alpine3.18
+      - name: Build and Push alpine3
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile.alpine3.18
+          file: ./Dockerfile.alpine3
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/alpine:3.18
+            ${{ secrets.DOCKER_USERNAME }}/alpine:3
       - name: Build and Push alpine3-bash
         uses: docker/build-push-action@v4
         with:
@@ -225,15 +240,6 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/debug:dev
             ${{ secrets.DOCKER_USERNAME }}/debug:latest
-      - name: Build and Push alpine3
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.alpine3
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/alpine:3
 
   build-python:
     runs-on: ubuntu-latest

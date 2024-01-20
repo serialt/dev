@@ -1,4 +1,4 @@
-ARG OCI_VERSION=debian:12
+ARG OCI_VERSION=12
 FROM debian:${OCI_VERSION}
 
 LABEL mantainer="serialt <tserialt@gmail.com> build a vm image"

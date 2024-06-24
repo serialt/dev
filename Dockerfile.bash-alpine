@@ -1,0 +1,17 @@
+ARG OCI_VERSION=alpine3.20
+FROM bash:${OCI_VERSION}
+
+LABEL mantainer="serialt <tserialt@gmail.com>"
+
+#set timezone 
+ENV LANG=C.UTF-8
+ENV TZ=Asia/Shanghai
+ENV HISTTIMEFORMAT="[%F %T] "
+ENV PS1="[\u@\h \W]\\$ "
+
+
+RUN apk update --no-cache && apk add --no-cache curl vim   && \
+    echo -e 'export PS1="[\u@\h \W]\\$ "\nexport HISTTIMEFORMAT="[%F %T] [`whoami`] "' >> /etc/profile && \
+    rm -rf /var/cache/apk/* 
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories

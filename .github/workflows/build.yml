@@ -221,6 +221,17 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/alpine:3-bash
+
+      - name: Build and Push bash-alpine3
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.bash-alpine
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/bash:alpine
+
       - name: Build and Push alpine3-dev
         uses: docker/build-push-action@v4
         with:

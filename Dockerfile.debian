@@ -17,10 +17,10 @@ RUN  apt-get update &&  apt-get upgrade -y && apt-get install -y apt-transport-h
     rm -rf /var/lib/apt/lists/*
 
 # change apt source 
-RUN sed -i 's/\w*.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources 
+RUN sed -i 's/\w*.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources || sed -i 's/\w*.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 
 # # change apt source to https
-RUN sed -i "s@http://mirrors.ustc.edu.cn@https://mirrors.ustc.edu.cn@g"  /etc/apt/sources.list.d/debian.sources 
+RUN sed -i "s@http://mirrors.ustc.edu.cn@https://mirrors.ustc.edu.cn@g"  /etc/apt/sources.list.d/debian.sources || sed -i "s@http://mirrors.ustc.edu.cn@https://mirrors.ustc.edu.cn@g"  /etc/apt/sources.list 
 
 
 

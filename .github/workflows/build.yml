@@ -160,9 +160,10 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile.debian11
+          file: ./Dockerfile.debian
           push: true
           platforms: linux/amd64,linux/arm64
+          build-args: OCI_VERSION=11
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/debian:11
             ${{ secrets.DOCKER_USERNAME }}/debian:bullseye

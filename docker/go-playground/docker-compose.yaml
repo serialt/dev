@@ -1,0 +1,34 @@
+version: '3'
+services:
+
+  sandbox:
+    image: soulteary/golang-playground:sandbox-1.18.4
+    restart: always
+    command: -mode=server -listen=0.0.0.0:80 -workers=1 -untrusted-container=soulteary/golang-playground:actuator-1.18.4
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - playground
+    depends_on:
+      - memcached
+
+  web:
+    image: soulteary/golang-playground:web-1.18.4
+    restart: always
+    environment:
+      - SANDBOX_BACKEND_URL=http://sandbox:/run
+      - MEMCACHED_ADDR=memcached:11211
+    ports:
+      - 8089:8080
+    depends_on:
+      - sandbox
+    networks:
+      - playground
+
+  memcached:
+    image: memcached:1.6.15-alpine
+    command: memcached -m 64
+    networks:
+      - playground
+networks: 
+  playground:

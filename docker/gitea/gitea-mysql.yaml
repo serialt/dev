@@ -1,0 +1,45 @@
+version: "3"
+
+networks:
+  gitea:
+    external: false
+
+services:
+  server:
+    image: gitea/gitea:1.16.6
+    container_name: gitea
+    environment:
+      USER_UID: "5555"
+      USER_GID: "5555"
+      DB_TYPE: "mysql"
+      DB_HOST: "db:3306"
+      DB_USER: "gitea"
+      DB_PASSWD: "gitea"
+      DOMAIN: "local.com"
+      SSH_DOMAIN: "git.local.com"
+      DISABLE_REGISTRATION: "true"
+      REQUIRE_SIGNIN_VIEW: "true"
+    restart: always
+    networks:
+      - gitea
+    volumes:
+      - /data/gitea:/data
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "127.0.0.1:5000:3000"
+      - "10.0.16.10:22:22"
+    depends_on:
+      - db
+  db:
+    image: mysql:8
+    restart: always
+    container_name: gitea_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=gitea
+      - MYSQL_USER=gitea
+      - MYSQL_PASSWORD=gitea
+      - MYSQL_DATABASE=gitea
+    networks:
+      - gitea
+    volumes:
+      - /data/gitea_mysql:/var/lib/mysql

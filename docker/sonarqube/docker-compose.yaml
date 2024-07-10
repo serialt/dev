@@ -1,0 +1,37 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:12.9
+    container_name: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonar
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /data/sonar/pg_data:/var/lib/postgresql/data
+  sonarqube:
+    image: sonarqube:8-community
+    container_name: sonarqube
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      SONARQUBE_JDBC_USERNAME: sonar
+      SONARQUBE_JDBC_PASSWORD: sonar
+      SONARQUBE_JDBC_URL: jdbc:postgresql://postgres:5432/sonar
+    depends_on:
+      - postgres
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - sonar_data:/opt/sonarqube/data
+      - sonar_extensions:/opt/sonarqube/extensions
+      - sonar_logs:/opt/sonarqube/logs
+
+volumes:
+  sonar_data: null
+  sonar_extensions: null
+  sonar_logs: null

@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  action:
+    image: gitea/gitea:1.19
+    container_name: gitea-action
+    environment:
+      DOMAIN: "local.com"
+      SSH_DOMAIN: "git.local.com"
+      DISABLE_REGISTRATION: "true"
+      REQUIRE_SIGNIN_VIEW: "true"
+    restart: always
+    volumes:
+      - /data/gitea-action:/data
+      - /home/git/.ssh/:/data/git/.ssh
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8088:3000"
+

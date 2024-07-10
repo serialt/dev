@@ -1,0 +1,20 @@
+version: "3"
+
+networks:
+  coredns:
+    external: false
+
+services:
+  server:
+    image: serialt/coredns:1.8.6
+    container_name: coredns
+    restart: always
+    networks:
+      - coredns
+    volumes:
+      - ${PWD}/Corefile:/Corefile
+      - ${PWD}/zones:/zones
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "53:53/udp"
+      - "9153:9153"

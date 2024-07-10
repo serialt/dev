@@ -1,0 +1,20 @@
+version: "3"
+services:
+  vscode:
+    image: swr.cn-east-3.myhuaweicloud.com/serialt/vscode:v4.90.3
+    container_name: vscode
+    hostname: vscode
+    restart: always
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/usr/bin/docker:/usr/bin/docker"
+      - "/usr/bin/docker-compose:/usr/bin/docker-compose"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "${HOME}/.ssh:${HOME}/.ssh"
+      - "${HOME}/github:/root/github"
+      - "/yaml:/root/yaml"
+      - "${PWD}/config.yaml:/root/.config/code-server/config.yaml"
+
+    ports:
+      - "127.0.0.1:8080:80"
+      - "10.0.16.10:8080:80"

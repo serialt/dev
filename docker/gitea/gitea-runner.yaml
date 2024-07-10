@@ -1,0 +1,23 @@
+version: "3"
+
+networks:
+  gitea:
+    external: true
+
+services:
+  gitea-runner:
+    image: gitea/act_runner:0.2.6
+    container_name: gitea-runner
+    environment:
+      - GITEA_INSTANCE_URL=https://local.com/
+      - GITEA_RUNNER_REGISTRATION_TOKEN=M6hTzunxxxxxxxxxxxxxxxxxxxx
+      - GITEA_RUNNER_NAME=docker_runner
+    restart: always
+    networks:
+      - gitea
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/gitea-runner/data:/data
+      - /data/gitea-runner/cache:/root/.cache
+

@@ -1,0 +1,10 @@
+ARG FROM=alpine:3.16
+FROM ${FROM}
+ENV LANG=C.UTF-8
+ENV TZ=Asia/Shanghai
+
+LABEL mantainer="serialt <tserialt@gmail.com> alpine image"
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
+    apk add --update --no-cache coreutils && \
+    apk add --no-cache curl 

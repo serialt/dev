@@ -1,0 +1,28 @@
+version: "3"
+
+networks:
+  zentao:
+    external: false
+
+services:
+  zentao:
+    image: easysoft/zentao:16.4
+    container_name: zentao
+    hostname: zentao
+    restart: always
+    environment:
+      - "MYSQL_ROOT_PASSWORD=Pwd@123"
+    networks:
+      - zentao
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/data/zentao:/www/zentaopms"
+      - "/data/zentao_mysql:/var/lib/mysql"
+      - "/data/zentao_apache_log:/var/log/apache2"
+      - "/data/zentao_mysql_log:/var/log/mysql"
+    ports:
+      - "80:80"
+      - "443:443"
+    dns:
+      - 223.5.5.5
+      - 223.6.6.6

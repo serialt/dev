@@ -1,0 +1,29 @@
+.:53 {
+  health {
+    lameduck 5s
+  }
+  auto {
+    directory ./zones
+    reload 1m
+  }
+  hosts {
+
+    ttl 120
+    reload 1m
+    fallthrough
+  }
+
+  #chaos CoreDNS-001 info@coredns.io
+  prometheus 0.0.0.0:9153
+  log
+  cache 120
+  loop
+  errors
+  forward . 114.114.114.114:53 8.8.8.8:53 [2400:3200::1]:53
+  loadbalance
+
+
+  }
+
+
+}

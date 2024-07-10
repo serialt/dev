@@ -1,0 +1,15 @@
+version: "3"
+services:
+  watchvuln:
+    image: zemal/watchvuln:v0.9.0
+    container_name: watchvuln
+    hostname: watchvuln
+    restart: always
+    environment:
+      DINGDING_ACCESS_TOKEN: xxxxxxxxxxxxxxxxxxxxxx
+      DINGDING_SECRET: xxxxxxxxxxxxxxxx 
+      LARK_ACCESS_TOKEN: 1ddfb805-xxxxxxxxxxxxxxxxxxx   
+      LARK_SECRET: GUUKIrxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      INTERVAL: 30m 
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"

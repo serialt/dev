@@ -1,0 +1,25 @@
+version: "3"
+
+networks:
+  esxi: null
+services:
+  exsi12:
+    image: prometheus-vmware-exporter:0.2.1
+    container_name: exsi
+    hostname: exsi
+    restart: always
+    # privileged: true
+    # user: root
+    ports:
+      - "9812:9879"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${PWD}/config/:/etc/vmware/config
+    command: --config=/etc/vmware/config/exsi.yaml
+    environment:
+      - ESX_HOST=value
+      - ESX_USERNAME=user
+      - ESX_PASSWORD=password
+      - ESX_LOG=info
+    networks:
+      - esxi

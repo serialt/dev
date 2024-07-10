@@ -1,0 +1,10 @@
+# tls_server_config:
+#   cert_file: exporter.crt
+#   key_file: exporter.key
+# http_server_config:
+#   # Enable HTTP/2 support. Note that HTTP/2 is only supported with TLS.
+#   # This can not be changed on the fly.
+#   [ http2: <bool> | default = true ]
+basic_auth_users:
+  # 当前设置的用户名为 prometheus ， 可以设置多个
+  prometheus: $2y$12$zwhHgEA9eNWrSzvBgUfudOVysRkKGeF1bA5uYWKeBKd0c/D8kXK0C

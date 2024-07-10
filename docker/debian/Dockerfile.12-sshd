@@ -1,0 +1,38 @@
+FROM debian:bookworm
+
+LABEL mantainer="serialt <tserialt@gmail.com> build a vm image"
+
+#set timezone 
+ENV TZ=Asia/Shanghai
+ENV LANG=C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
+
+
+# change apt source 
+RUN sed -i 's/\w*.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+
+# update package
+RUN  apt-get update &&  apt-get upgrade -y && apt-get install -y apt-transport-https ca-certificates gnupg-agent tzdata curl vim python3 openssh-client openssh-server && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata  && \
+    echo -e '[global]\nindex-url = https://repo.huaweicloud.com/repository/pypi/simple\ntrusted-host = repo.huaweicloud.com\ntimeout = 120' > /etc/pip.conf  && \
+    apt clean 
+
+# # change apt source to https
+RUN sed -i "s@http://mirrors.ustc.edu.cn@https://mirrors.ustc.edu.cn@g"  /etc/apt/sources.list 
+
+# set sshd 
+RUN mkdir -p /run/sshd && \
+    echo root:sugar | chpasswd && \
+    sed -ri '/^#PermitRootLogin/cPermitRootLogin yes'  /etc/ssh/sshd_config
+
+WORKDIR /root
+
+EXPOSE 22 80 443
+
+CMD /usr/sbin/sshd -D 
+
+
+
+
+

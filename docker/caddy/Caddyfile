@@ -1,0 +1,15 @@
+example.com {
+	# 网站的域名信息
+
+	tls {
+	}
+	encode zstd gzip # 启用压缩
+	root * ./ # 域名映射根路径
+	file_server # 启动文件服务
+}
+
+example2.com {
+	# 网站的域名信息
+	tls example2.com.pem example2.com.key # 证书和密钥的 PEM 格式的文件路径
+	reverse_proxy localhost:9000 # 反向代理
+}

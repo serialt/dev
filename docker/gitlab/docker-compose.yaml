@@ -1,0 +1,25 @@
+version: '3'
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:13.12.12-ce.0
+    container_name: gitlab
+    restart: always
+    privileged: true
+    environment:
+      TZ: 'Asia/Shanghai'
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url = "http://local.com"
+    ports:
+      - '80:80'
+      - '443:443'
+      - '2222:22'
+    volumes:
+      - ${PWD}/config:/etc/gitlab
+      - /data/gitlab/logs:/var/log/gitlab
+      - /data/gitlab/data:/var/opt/gitlab
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - gitlab
+
+networks:
+  gitlab:

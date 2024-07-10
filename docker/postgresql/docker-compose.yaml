@@ -1,0 +1,14 @@
+version: "3"
+services:
+  postgresql-10:
+    image: "postgres:10-bullseye"
+    container_name: postgresql-10
+    restart: always
+    ports:
+    - "5432:5432"
+    volumes:
+    - /data/postgresql:/var/lib/postgresql/data
+    - /etc/localtime:/etc/localtime:ro
+    - ${PWD}/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_PASSWORD: sugar.tang

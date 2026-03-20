@@ -26,4 +26,10 @@
   }
 
 
+https://.:8053 {
+  forward . 1.1.1.1 1.0.0.1
+  log
+  cache 120
+  loop
+  errors
 }

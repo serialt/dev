@@ -1,0 +1,11 @@
+services:
+  redis:
+    image: registry.cn-hangzhou.aliyuncs.com/serialt/redis:8.2.0
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ${PWD}/data:/data
+    environment:
+      - REDIS_PASSWORD=Password123
